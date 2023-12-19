@@ -3,12 +3,14 @@
   "version": "1.0.0",
   "description": "a backend at chai or code",
   "main": "index.js",
-  "type": "module",  
-
+  "type": "module",
   "scripts": {
-    "dev":"nodemon src/index.js"
+    "dev": "nodemon src/index.js"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "^3.1.1"
+  }
 }
