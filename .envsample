@@ -1,0 +1,2 @@
+PORT=8000
+MONGODB_URI=mongodb+srv://umeshbisht792:umesh9627@cluster0.mlo1wbz.mongodb.net
