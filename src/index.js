@@ -1,15 +1,79 @@
-
 import dotenv from "dotenv"
 import mongoose from "mongoose";
 import express from "express";
 import { DB_NAME } from "./constants.js";
 import connectDB from "./db/index.js"
+import { app } from "./app.js";
 
 //Apporch:::1
 dotenv.config({
     path:'./env'
 })
  connectDB()
+ .then(()=>{
+    app.listen(process.env.PORT||8000,()=>{
+        console.log(`server is running at ${process.env.PORT}`);
+    })
+    app.get("/",(req,res)=>{
+        res.send("jai ist dev");
+        
+    })
+    app.get("/umesh",(req,res)=>{
+        res.send("umesh bisht is here")
+    })
+ }).catch((error)=>{
+    console.log("error occured in connecting database");
+ })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //Approch 2:
 // const app = new express()
 
@@ -31,5 +95,5 @@ dotenv.config({
 //             console.log("ERROR in CONNECTION", error);
 //             throw error;
 //         }
-//     })()    // semicolon is used for cleaning  
+//     })();    // semicolon is used for cleaning  
     
