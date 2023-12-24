@@ -56,14 +56,14 @@ const userschema = new Schema({
 }, { timestamps: true })
 
 userschema.pre("save",async function(next){
-    if(this.isModified("passward")){
+    if(this.isModified("password")){
    this.password= await bcrypt.hash(this.password,10)  // it takes towo thing passward and saltround to encrypt
     }
     next();
 })
-userschema.methods.ispasswardCorrect=async function(passward)
+userschema.methods.ispasswardCorrect=async function(password)
 {
-   return await bcrypt.compare(passward,this.passward)
+   return await bcrypt.compare(password,this.password)
 
 }
 userschema.methods.generateaccesstoken=function(){

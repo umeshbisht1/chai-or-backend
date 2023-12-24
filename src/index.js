@@ -7,7 +7,7 @@ import { app } from "./app.js";
 
 //Apporch:::1
 dotenv.config({
-    path:'./env'
+    path:'./.env'
 })
  connectDB()
  .then(()=>{
