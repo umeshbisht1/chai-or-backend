@@ -54,6 +54,14 @@ const userschema = new Schema({
 
 
 }, { timestamps: true })
+/*
+The use method is primarily used to load middleware functions in an Express application. 
+Middleware functions are functions that have access to the request object (req), the response object (res), 
+and the next middleware function in the application's request-response cycle.
+
+*/
+
+
 
 userschema.pre("save",async function(next){
     if(this.isModified("password")){
@@ -61,12 +69,11 @@ userschema.pre("save",async function(next){
     }
     next();
 })
-userschema.methods.ispasswardCorrect=async function(password)
+userschema.methods.isCorrect = async function(password)
 {
    return await bcrypt.compare(password,this.password)
-
 }
-userschema.methods.generateaccesstoken=function(){
+userschema.methods.generateaccesstoken=function(){        // jwt is barrier token it is like a key
    return  Jwt.sign(      //In the context of web development, APIs, and security, the term "payload" usually refers to the data that is transmitted as part of a request or response in a communication protocol. It is the actual content of the message.
         {
             _id:this._id,
@@ -78,6 +85,7 @@ userschema.methods.generateaccesstoken=function(){
         {
             expiresIn:process.env.ACCESS_TOKEN_EXPIRY   // expiry time
         }
+
     )
 }
 userschema.methods.generaterefreshtoken=function(){
