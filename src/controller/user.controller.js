@@ -11,6 +11,7 @@ const generateaccesstoken_and_refreshtoken = async (userId) => {
 
         const accessToken = user.generateaccesstoken()
         const refreshToken = user.generaterefreshtoken()
+        //console.log(refreshToken);
         user.refreshToken = refreshToken;
         await user.save({ validateBeforeSave: false })
         return { refreshToken, accessToken }
@@ -207,28 +208,30 @@ const logoutUser = asyncHandler(async (req, res) => {
 })
 const refreshaccessToken=asyncHandler(async(req,res)=>{
     const incomingrefreshToken=req.cookies.refreshToken||req.body.refreshToken;
-    if(incomingrefreshToken)
+    if(!incomingrefreshToken)
     throw new apierror(401,"unauthorized request")
     
     try {
-        const decodedToken=jwt.verify((incomingrefreshToken,
+        const decodedToken=jwt.verify(incomingrefreshToken,
             process.env.REFRESH_TOKEN_SECRET
-            ))
+            )
          const user=await User.findById(decodedToken?._id)  ;
-         if(user)
+         if(!user)
          throw new apierror(401,"invalid refresh token")
-         if(incomingrefreshToken!==user?.refreshToken)
+         if(incomingrefreshToken!==user.refreshToken)
          throw new apierror(401,"refrseh token is expired or used")
         const options={
             httpOnly:true,
             secure:true,
         } 
-        const {accessToken,newrefreshToken}=await generateaccesstoken_and_refreshtoken(user._id)
+        
+        const {accessToken,refreshToken}=await generateaccesstoken_and_refreshtoken(user._id);
+        console.log(refreshToken);
         return res.status(200)
         .cookie("accessToken",accessToken,options)
-        .cookie("refreshToken",newrefreshToken,options)
+        .cookie("refreshToken",refreshToken,options)
         .json(new apiresponse(200,{
-            accessToken,newrefreshToken,
+            accessToken,refreshToken,
         },"access token  refreshed"))
     } catch (error) {
         throw new apierror(401,error.message||"refreshed again")
