@@ -9,6 +9,5 @@ const subscriptionschema= new mongoose.Schema({
     ref:"User"
   },
 
-
 },{timeStamps:true})
 export const Subscription=mongoose.model("Subscription",subscriptionschema)
